@@ -1,0 +1,1254 @@
+lab02@lab02-OptiPlex-3040:~/Desktop/12190041/Assignment 1/bomb002$ gdb bomb //gdb is used as debugger for the bomb file.
+GNU gdb (Ubuntu 9.2-0ubuntu1~20.04) 9.2
+Copyright (C) 2020 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from bomb...
+(gdb) b phase_3 //set break point on phase_3 function so it could only be the function to be executed.
+Breakpoint 1 at 0x400f0d
+(gdb) b explode_bomb //set break on explode_bomb function so it wouldn't be explode if the input is wrong.
+Breakpoint 2 at 0x401438
+(gdb) run //Execute the function.
+Starting program: /home/lab02/Desktop/12190041/Assignment 1/bomb002/bomb 
+Welcome to my fiendish little bomb. You have 6 phases with
+which to blow yourself up. Have a nice day!
+Public speaking is very easy. //Enter the input of phase_1
+Phase 1 defused. How about the next one?
+1 2 4 8 16 32 //Enter the input of phase_2
+That's number 2.  Keep going!
+2 4 //For the third phase enter anything. Since we don't know what is the input we can randomly enter any input.
+
+Breakpoint 1, 0x0000000000400f0d in phase_3 ()
+(gdb) disas //We disassemble the code.
+Dump of assembler code for function phase_3:
+=> 0x0000000000400f0d <+0>:	sub    $0x18,%rsp
+   0x0000000000400f11 <+4>:	mov    %fs:0x28,%rax
+   0x0000000000400f1a <+13>:	mov    %rax,0x8(%rsp)
+   0x0000000000400f1f <+18>:	xor    %eax,%eax
+   0x0000000000400f21 <+20>:	lea    0x4(%rsp),%rcx
+   0x0000000000400f26 <+25>:	mov    %rsp,%rdx
+   0x0000000000400f29 <+28>:	mov    $0x4025b7,%esi
+   0x0000000000400f2e <+33>:	callq  0x400bb0 <__isoc99_sscanf@plt>
+   0x0000000000400f33 <+38>:	cmp    $0x1,%eax
+   0x0000000000400f36 <+41>:	jg     0x400f3d <phase_3+48>
+   0x0000000000400f38 <+43>:	callq  0x401438 <explode_bomb>
+   0x0000000000400f3d <+48>:	cmpl   $0x7,(%rsp)
+   0x0000000000400f41 <+52>:	ja     0x400f9e <phase_3+145>
+   0x0000000000400f43 <+54>:	mov    (%rsp),%eax
+   0x0000000000400f46 <+57>:	jmpq   *0x402400(,%rax,8)
+   0x0000000000400f4d <+64>:	mov    $0x380,%eax
+   0x0000000000400f52 <+69>:	jmp    0x400f59 <phase_3+76>
+   0x0000000000400f54 <+71>:	mov    $0x0,%eax
+   0x0000000000400f59 <+76>:	sub    $0x3e4,%eax
+   0x0000000000400f5e <+81>:	jmp    0x400f65 <phase_3+88>
+   0x0000000000400f60 <+83>:	mov    $0x0,%eax
+   0x0000000000400f65 <+88>:	add    $0x21e,%eax
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400f6a <+93>:	jmp    0x400f71 <phase_3+100>
+   0x0000000000400f6c <+95>:	mov    $0x0,%eax
+   0x0000000000400f71 <+100>:	sub    $0x34,%eax
+   0x0000000000400f74 <+103>:	jmp    0x400f7b <phase_3+110>
+   0x0000000000400f76 <+105>:	mov    $0x0,%eax
+   0x0000000000400f7b <+110>:	add    $0x34,%eax
+   0x0000000000400f7e <+113>:	jmp    0x400f85 <phase_3+120>
+   0x0000000000400f80 <+115>:	mov    $0x0,%eax
+   0x0000000000400f85 <+120>:	sub    $0x34,%eax
+   0x0000000000400f88 <+123>:	jmp    0x400f8f <phase_3+130>
+   0x0000000000400f8a <+125>:	mov    $0x0,%eax
+   0x0000000000400f8f <+130>:	add    $0x34,%eax
+   0x0000000000400f92 <+133>:	jmp    0x400f99 <phase_3+140>
+   0x0000000000400f94 <+135>:	mov    $0x0,%eax
+   0x0000000000400f99 <+140>:	sub    $0x34,%eax
+   0x0000000000400f9c <+143>:	jmp    0x400fa8 <phase_3+155>
+   0x0000000000400f9e <+145>:	callq  0x401438 <explode_bomb>
+   0x0000000000400fa3 <+150>:	mov    $0x0,%eax
+   0x0000000000400fa8 <+155>:	cmpl   $0x5,(%rsp)
+   0x0000000000400fac <+159>:	jg     0x400fb4 <phase_3+167>
+   0x0000000000400fae <+161>:	cmp    0x4(%rsp),%eax
+   0x0000000000400fb2 <+165>:	je     0x400fb9 <phase_3+172>
+   0x0000000000400fb4 <+167>:	callq  0x401438 <explode_bomb>
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400fb9 <+172>:	mov    0x8(%rsp),%rax
+   0x0000000000400fbe <+177>:	xor    %fs:0x28,%rax
+   0x0000000000400fc7 <+186>:	je     0x400fce <phase_3+193>
+   0x0000000000400fc9 <+188>:	callq  0x400b00 <__stack_chk_fail@plt>
+   0x0000000000400fce <+193>:	add    $0x18,%rsp
+   0x0000000000400fd2 <+197>:	retq   
+End of assembler dump.
+(gdb) u * 0x0000000000400f26 //We directly move to 6th line as it make more sense.
+0x0000000000400f26 in phase_3 ()
+(gdb) disas //We disassemble the code.
+Dump of assembler code for function phase_3:
+   0x0000000000400f0d <+0>:	sub    $0x18,%rsp
+   0x0000000000400f11 <+4>:	mov    %fs:0x28,%rax
+   0x0000000000400f1a <+13>:	mov    %rax,0x8(%rsp)
+   0x0000000000400f1f <+18>:	xor    %eax,%eax
+   0x0000000000400f21 <+20>:	lea    0x4(%rsp),%rcx
+=> 0x0000000000400f26 <+25>:	mov    %rsp,%rdx
+   0x0000000000400f29 <+28>:	mov    $0x4025b7,%esi
+   0x0000000000400f2e <+33>:	callq  0x400bb0 <__isoc99_sscanf@plt>
+   0x0000000000400f33 <+38>:	cmp    $0x1,%eax
+   0x0000000000400f36 <+41>:	jg     0x400f3d <phase_3+48>
+   0x0000000000400f38 <+43>:	callq  0x401438 <explode_bomb>
+   0x0000000000400f3d <+48>:	cmpl   $0x7,(%rsp)
+   0x0000000000400f41 <+52>:	ja     0x400f9e <phase_3+145>
+   0x0000000000400f43 <+54>:	mov    (%rsp),%eax
+   0x0000000000400f46 <+57>:	jmpq   *0x402400(,%rax,8)
+   0x0000000000400f4d <+64>:	mov    $0x380,%eax
+   0x0000000000400f52 <+69>:	jmp    0x400f59 <phase_3+76>
+   0x0000000000400f54 <+71>:	mov    $0x0,%eax
+   0x0000000000400f59 <+76>:	sub    $0x3e4,%eax
+   0x0000000000400f5e <+81>:	jmp    0x400f65 <phase_3+88>
+   0x0000000000400f60 <+83>:	mov    $0x0,%eax
+   0x0000000000400f65 <+88>:	add    $0x21e,%eax
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400f6a <+93>:	jmp    0x400f71 <phase_3+100>
+   0x0000000000400f6c <+95>:	mov    $0x0,%eax
+   0x0000000000400f71 <+100>:	sub    $0x34,%eax
+   0x0000000000400f74 <+103>:	jmp    0x400f7b <phase_3+110>
+   0x0000000000400f76 <+105>:	mov    $0x0,%eax
+   0x0000000000400f7b <+110>:	add    $0x34,%eax
+   0x0000000000400f7e <+113>:	jmp    0x400f85 <phase_3+120>
+   0x0000000000400f80 <+115>:	mov    $0x0,%eax
+   0x0000000000400f85 <+120>:	sub    $0x34,%eax
+   0x0000000000400f88 <+123>:	jmp    0x400f8f <phase_3+130>
+   0x0000000000400f8a <+125>:	mov    $0x0,%eax
+   0x0000000000400f8f <+130>:	add    $0x34,%eax
+   0x0000000000400f92 <+133>:	jmp    0x400f99 <phase_3+140>
+   0x0000000000400f94 <+135>:	mov    $0x0,%eax
+   0x0000000000400f99 <+140>:	sub    $0x34,%eax
+   0x0000000000400f9c <+143>:	jmp    0x400fa8 <phase_3+155>
+   0x0000000000400f9e <+145>:	callq  0x401438 <explode_bomb>
+   0x0000000000400fa3 <+150>:	mov    $0x0,%eax
+   0x0000000000400fa8 <+155>:	cmpl   $0x5,(%rsp)
+   0x0000000000400fac <+159>:	jg     0x400fb4 <phase_3+167>
+   0x0000000000400fae <+161>:	cmp    0x4(%rsp),%eax
+   0x0000000000400fb2 <+165>:	je     0x400fb9 <phase_3+172>
+   0x0000000000400fb4 <+167>:	callq  0x401438 <explode_bomb>
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400fb9 <+172>:	mov    0x8(%rsp),%rax
+   0x0000000000400fbe <+177>:	xor    %fs:0x28,%rax
+   0x0000000000400fc7 <+186>:	je     0x400fce <phase_3+193>
+   0x0000000000400fc9 <+188>:	callq  0x400b00 <__stack_chk_fail@plt>
+   0x0000000000400fce <+193>:	add    $0x18,%rsp
+   0x0000000000400fd2 <+197>:	retq   
+End of assembler dump.
+(gdb) ni
+0x0000000000400f29 in phase_3 ()
+(gdb) disas
+Dump of assembler code for function phase_3:
+   0x0000000000400f0d <+0>:	sub    $0x18,%rsp
+   0x0000000000400f11 <+4>:	mov    %fs:0x28,%rax
+   0x0000000000400f1a <+13>:	mov    %rax,0x8(%rsp)
+   0x0000000000400f1f <+18>:	xor    %eax,%eax
+   0x0000000000400f21 <+20>:	lea    0x4(%rsp),%rcx
+   0x0000000000400f26 <+25>:	mov    %rsp,%rdx
+=> 0x0000000000400f29 <+28>:	mov    $0x4025b7,%esi
+   0x0000000000400f2e <+33>:	callq  0x400bb0 <__isoc99_sscanf@plt>
+   0x0000000000400f33 <+38>:	cmp    $0x1,%eax
+   0x0000000000400f36 <+41>:	jg     0x400f3d <phase_3+48>
+   0x0000000000400f38 <+43>:	callq  0x401438 <explode_bomb>
+   0x0000000000400f3d <+48>:	cmpl   $0x7,(%rsp)
+   0x0000000000400f41 <+52>:	ja     0x400f9e <phase_3+145>
+   0x0000000000400f43 <+54>:	mov    (%rsp),%eax
+   0x0000000000400f46 <+57>:	jmpq   *0x402400(,%rax,8)
+   0x0000000000400f4d <+64>:	mov    $0x380,%eax
+   0x0000000000400f52 <+69>:	jmp    0x400f59 <phase_3+76>
+   0x0000000000400f54 <+71>:	mov    $0x0,%eax
+   0x0000000000400f59 <+76>:	sub    $0x3e4,%eax
+   0x0000000000400f5e <+81>:	jmp    0x400f65 <phase_3+88>
+   0x0000000000400f60 <+83>:	mov    $0x0,%eax
+   0x0000000000400f65 <+88>:	add    $0x21e,%eax
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400f6a <+93>:	jmp    0x400f71 <phase_3+100>
+   0x0000000000400f6c <+95>:	mov    $0x0,%eax
+   0x0000000000400f71 <+100>:	sub    $0x34,%eax
+   0x0000000000400f74 <+103>:	jmp    0x400f7b <phase_3+110>
+   0x0000000000400f76 <+105>:	mov    $0x0,%eax
+   0x0000000000400f7b <+110>:	add    $0x34,%eax
+   0x0000000000400f7e <+113>:	jmp    0x400f85 <phase_3+120>
+   0x0000000000400f80 <+115>:	mov    $0x0,%eax
+   0x0000000000400f85 <+120>:	sub    $0x34,%eax
+   0x0000000000400f88 <+123>:	jmp    0x400f8f <phase_3+130>
+   0x0000000000400f8a <+125>:	mov    $0x0,%eax
+   0x0000000000400f8f <+130>:	add    $0x34,%eax
+   0x0000000000400f92 <+133>:	jmp    0x400f99 <phase_3+140>
+   0x0000000000400f94 <+135>:	mov    $0x0,%eax
+   0x0000000000400f99 <+140>:	sub    $0x34,%eax
+   0x0000000000400f9c <+143>:	jmp    0x400fa8 <phase_3+155>
+   0x0000000000400f9e <+145>:	callq  0x401438 <explode_bomb>
+   0x0000000000400fa3 <+150>:	mov    $0x0,%eax
+   0x0000000000400fa8 <+155>:	cmpl   $0x5,(%rsp)
+   0x0000000000400fac <+159>:	jg     0x400fb4 <phase_3+167>
+   0x0000000000400fae <+161>:	cmp    0x4(%rsp),%eax
+   0x0000000000400fb2 <+165>:	je     0x400fb9 <phase_3+172>
+   0x0000000000400fb4 <+167>:	callq  0x401438 <explode_bomb>
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400fb9 <+172>:	mov    0x8(%rsp),%rax
+   0x0000000000400fbe <+177>:	xor    %fs:0x28,%rax
+   0x0000000000400fc7 <+186>:	je     0x400fce <phase_3+193>
+   0x0000000000400fc9 <+188>:	callq  0x400b00 <__stack_chk_fail@plt>
+   0x0000000000400fce <+193>:	add    $0x18,%rsp
+   0x0000000000400fd2 <+197>:	retq   
+End of assembler dump.
+(gdb) i r //To see what value or address is being move from 0x4025b7 to %esi register. And we can see the value is 2.
+rax            0x0                 0
+rbx            0x4021f0            4202992
+rcx            0x7fffffffde54      140737488346708
+rdx            0x7fffffffde50      140737488346704
+rsi            0x2                 2
+rdi            0x603840            6305856
+rbp            0x0                 0x0
+rsp            0x7fffffffde50      0x7fffffffde50
+r8             0x603840            6305856
+r9             0x0                 0
+r10            0x7ffff7f61ac0      140737353489088
+r11            0x246               582
+r12            0x400c60            4197472
+r13            0x7fffffffdf60      140737488346976
+r14            0x0                 0
+r15            0x0                 0
+rip            0x400f29            0x400f29 <phase_3+28>
+eflags         0x246               [ PF ZF IF ]
+cs             0x33                51
+ss             0x2b                43
+ds             0x0                 0
+es             0x0                 0
+fs             0x0                 0
+--Type <RET> for more, q to quit, c to continue without paging--
+gs             0x0                 0
+(gdb) ni //We move to next line of code.
+0x0000000000400f2e in phase_3 ()
+(gdb) disas//From here we can see the value is being called but we don't know the value.
+Dump of assembler code for function phase_3:
+   0x0000000000400f0d <+0>:	sub    $0x18,%rsp
+   0x0000000000400f11 <+4>:	mov    %fs:0x28,%rax
+   0x0000000000400f1a <+13>:	mov    %rax,0x8(%rsp)
+   0x0000000000400f1f <+18>:	xor    %eax,%eax
+   0x0000000000400f21 <+20>:	lea    0x4(%rsp),%rcx
+   0x0000000000400f26 <+25>:	mov    %rsp,%rdx
+   0x0000000000400f29 <+28>:	mov    $0x4025b7,%esi
+=> 0x0000000000400f2e <+33>:	callq  0x400bb0 <__isoc99_sscanf@plt>
+   0x0000000000400f33 <+38>:	cmp    $0x1,%eax
+   0x0000000000400f36 <+41>:	jg     0x400f3d <phase_3+48>
+   0x0000000000400f38 <+43>:	callq  0x401438 <explode_bomb>
+   0x0000000000400f3d <+48>:	cmpl   $0x7,(%rsp)
+   0x0000000000400f41 <+52>:	ja     0x400f9e <phase_3+145>
+   0x0000000000400f43 <+54>:	mov    (%rsp),%eax
+   0x0000000000400f46 <+57>:	jmpq   *0x402400(,%rax,8)
+   0x0000000000400f4d <+64>:	mov    $0x380,%eax
+   0x0000000000400f52 <+69>:	jmp    0x400f59 <phase_3+76>
+   0x0000000000400f54 <+71>:	mov    $0x0,%eax
+   0x0000000000400f59 <+76>:	sub    $0x3e4,%eax
+   0x0000000000400f5e <+81>:	jmp    0x400f65 <phase_3+88>
+   0x0000000000400f60 <+83>:	mov    $0x0,%eax
+   0x0000000000400f65 <+88>:	add    $0x21e,%eax
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400f6a <+93>:	jmp    0x400f71 <phase_3+100>
+   0x0000000000400f6c <+95>:	mov    $0x0,%eax
+   0x0000000000400f71 <+100>:	sub    $0x34,%eax
+   0x0000000000400f74 <+103>:	jmp    0x400f7b <phase_3+110>
+   0x0000000000400f76 <+105>:	mov    $0x0,%eax
+   0x0000000000400f7b <+110>:	add    $0x34,%eax
+   0x0000000000400f7e <+113>:	jmp    0x400f85 <phase_3+120>
+   0x0000000000400f80 <+115>:	mov    $0x0,%eax
+   0x0000000000400f85 <+120>:	sub    $0x34,%eax
+   0x0000000000400f88 <+123>:	jmp    0x400f8f <phase_3+130>
+   0x0000000000400f8a <+125>:	mov    $0x0,%eax
+   0x0000000000400f8f <+130>:	add    $0x34,%eax
+   0x0000000000400f92 <+133>:	jmp    0x400f99 <phase_3+140>
+   0x0000000000400f94 <+135>:	mov    $0x0,%eax
+   0x0000000000400f99 <+140>:	sub    $0x34,%eax
+   0x0000000000400f9c <+143>:	jmp    0x400fa8 <phase_3+155>
+   0x0000000000400f9e <+145>:	callq  0x401438 <explode_bomb>
+   0x0000000000400fa3 <+150>:	mov    $0x0,%eax
+   0x0000000000400fa8 <+155>:	cmpl   $0x5,(%rsp)
+   0x0000000000400fac <+159>:	jg     0x400fb4 <phase_3+167>
+   0x0000000000400fae <+161>:	cmp    0x4(%rsp),%eax
+   0x0000000000400fb2 <+165>:	je     0x400fb9 <phase_3+172>
+   0x0000000000400fb4 <+167>:	callq  0x401438 <explode_bomb>
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400fb9 <+172>:	mov    0x8(%rsp),%rax
+   0x0000000000400fbe <+177>:	xor    %fs:0x28,%rax
+   0x0000000000400fc7 <+186>:	je     0x400fce <phase_3+193>
+   0x0000000000400fc9 <+188>:	callq  0x400b00 <__stack_chk_fail@plt>
+   0x0000000000400fce <+193>:	add    $0x18,%rsp
+   0x0000000000400fd2 <+197>:	retq   
+End of assembler dump.
+(gdb) x/s 0x400bb0 //To see what type of value it has, we are converting it to string.
+0x400bb0 <__isoc99_sscanf@plt>:	"\377%\342$ "
+(gdb) x/s $0x4025b7//To see what type of value it has, we are converting it to string.
+Value can't be converted to integer.
+(gdb) x/s 0x4025b7 //We can see that this code have 2 integers as value.
+0x4025b7:	"%d %d"
+(gdb) ni // Move to next line of code.
+0x0000000000400f33 in phase_3 ()
+(gdb) disas  //Here, we can see $0x1 and %eax are being compared
+Dump of assembler code for function phase_3:
+   0x0000000000400f0d <+0>:	sub    $0x18,%rsp
+   0x0000000000400f11 <+4>:	mov    %fs:0x28,%rax
+   0x0000000000400f1a <+13>:	mov    %rax,0x8(%rsp)
+   0x0000000000400f1f <+18>:	xor    %eax,%eax
+   0x0000000000400f21 <+20>:	lea    0x4(%rsp),%rcx
+   0x0000000000400f26 <+25>:	mov    %rsp,%rdx
+   0x0000000000400f29 <+28>:	mov    $0x4025b7,%esi
+   0x0000000000400f2e <+33>:	callq  0x400bb0 <__isoc99_sscanf@plt>
+=> 0x0000000000400f33 <+38>:	cmp    $0x1,%eax
+   0x0000000000400f36 <+41>:	jg     0x400f3d <phase_3+48>
+   0x0000000000400f38 <+43>:	callq  0x401438 <explode_bomb>
+   0x0000000000400f3d <+48>:	cmpl   $0x7,(%rsp)
+   0x0000000000400f41 <+52>:	ja     0x400f9e <phase_3+145>
+   0x0000000000400f43 <+54>:	mov    (%rsp),%eax
+   0x0000000000400f46 <+57>:	jmpq   *0x402400(,%rax,8)
+   0x0000000000400f4d <+64>:	mov    $0x380,%eax
+   0x0000000000400f52 <+69>:	jmp    0x400f59 <phase_3+76>
+   0x0000000000400f54 <+71>:	mov    $0x0,%eax
+   0x0000000000400f59 <+76>:	sub    $0x3e4,%eax
+   0x0000000000400f5e <+81>:	jmp    0x400f65 <phase_3+88>
+   0x0000000000400f60 <+83>:	mov    $0x0,%eax
+   0x0000000000400f65 <+88>:	add    $0x21e,%eax
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400f6a <+93>:	jmp    0x400f71 <phase_3+100>
+   0x0000000000400f6c <+95>:	mov    $0x0,%eax
+   0x0000000000400f71 <+100>:	sub    $0x34,%eax
+   0x0000000000400f74 <+103>:	jmp    0x400f7b <phase_3+110>
+   0x0000000000400f76 <+105>:	mov    $0x0,%eax
+   0x0000000000400f7b <+110>:	add    $0x34,%eax
+   0x0000000000400f7e <+113>:	jmp    0x400f85 <phase_3+120>
+   0x0000000000400f80 <+115>:	mov    $0x0,%eax
+   0x0000000000400f85 <+120>:	sub    $0x34,%eax
+   0x0000000000400f88 <+123>:	jmp    0x400f8f <phase_3+130>
+   0x0000000000400f8a <+125>:	mov    $0x0,%eax
+   0x0000000000400f8f <+130>:	add    $0x34,%eax
+   0x0000000000400f92 <+133>:	jmp    0x400f99 <phase_3+140>
+   0x0000000000400f94 <+135>:	mov    $0x0,%eax
+   0x0000000000400f99 <+140>:	sub    $0x34,%eax
+   0x0000000000400f9c <+143>:	jmp    0x400fa8 <phase_3+155>
+   0x0000000000400f9e <+145>:	callq  0x401438 <explode_bomb>
+   0x0000000000400fa3 <+150>:	mov    $0x0,%eax
+   0x0000000000400fa8 <+155>:	cmpl   $0x5,(%rsp)
+   0x0000000000400fac <+159>:	jg     0x400fb4 <phase_3+167>
+   0x0000000000400fae <+161>:	cmp    0x4(%rsp),%eax
+   0x0000000000400fb2 <+165>:	je     0x400fb9 <phase_3+172>
+   0x0000000000400fb4 <+167>:	callq  0x401438 <explode_bomb>
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400fb9 <+172>:	mov    0x8(%rsp),%rax
+   0x0000000000400fbe <+177>:	xor    %fs:0x28,%rax
+   0x0000000000400fc7 <+186>:	je     0x400fce <phase_3+193>
+   0x0000000000400fc9 <+188>:	callq  0x400b00 <__stack_chk_fail@plt>
+   0x0000000000400fce <+193>:	add    $0x18,%rsp
+   0x0000000000400fd2 <+197>:	retq   
+End of assembler dump.
+(gdb) ni//We move to next line of code.
+0x0000000000400f36 in phase_3 ()
+(gdb) disas //Here, it check whether the value of $0x1(1) < %eax(?).
+Dump of assembler code for function phase_3:
+   0x0000000000400f0d <+0>:	sub    $0x18,%rsp
+   0x0000000000400f11 <+4>:	mov    %fs:0x28,%rax
+   0x0000000000400f1a <+13>:	mov    %rax,0x8(%rsp)
+   0x0000000000400f1f <+18>:	xor    %eax,%eax
+   0x0000000000400f21 <+20>:	lea    0x4(%rsp),%rcx
+   0x0000000000400f26 <+25>:	mov    %rsp,%rdx
+   0x0000000000400f29 <+28>:	mov    $0x4025b7,%esi
+   0x0000000000400f2e <+33>:	callq  0x400bb0 <__isoc99_sscanf@plt>
+   0x0000000000400f33 <+38>:	cmp    $0x1,%eax
+=> 0x0000000000400f36 <+41>:	jg     0x400f3d <phase_3+48>
+   0x0000000000400f38 <+43>:	callq  0x401438 <explode_bomb>
+   0x0000000000400f3d <+48>:	cmpl   $0x7,(%rsp)
+   0x0000000000400f41 <+52>:	ja     0x400f9e <phase_3+145>
+   0x0000000000400f43 <+54>:	mov    (%rsp),%eax
+   0x0000000000400f46 <+57>:	jmpq   *0x402400(,%rax,8)
+   0x0000000000400f4d <+64>:	mov    $0x380,%eax
+   0x0000000000400f52 <+69>:	jmp    0x400f59 <phase_3+76>
+   0x0000000000400f54 <+71>:	mov    $0x0,%eax
+   0x0000000000400f59 <+76>:	sub    $0x3e4,%eax
+   0x0000000000400f5e <+81>:	jmp    0x400f65 <phase_3+88>
+   0x0000000000400f60 <+83>:	mov    $0x0,%eax
+   0x0000000000400f65 <+88>:	add    $0x21e,%eax
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400f6a <+93>:	jmp    0x400f71 <phase_3+100>
+   0x0000000000400f6c <+95>:	mov    $0x0,%eax
+   0x0000000000400f71 <+100>:	sub    $0x34,%eax
+   0x0000000000400f74 <+103>:	jmp    0x400f7b <phase_3+110>
+   0x0000000000400f76 <+105>:	mov    $0x0,%eax
+   0x0000000000400f7b <+110>:	add    $0x34,%eax
+   0x0000000000400f7e <+113>:	jmp    0x400f85 <phase_3+120>
+   0x0000000000400f80 <+115>:	mov    $0x0,%eax
+   0x0000000000400f85 <+120>:	sub    $0x34,%eax
+   0x0000000000400f88 <+123>:	jmp    0x400f8f <phase_3+130>
+   0x0000000000400f8a <+125>:	mov    $0x0,%eax
+   0x0000000000400f8f <+130>:	add    $0x34,%eax
+   0x0000000000400f92 <+133>:	jmp    0x400f99 <phase_3+140>
+   0x0000000000400f94 <+135>:	mov    $0x0,%eax
+   0x0000000000400f99 <+140>:	sub    $0x34,%eax
+   0x0000000000400f9c <+143>:	jmp    0x400fa8 <phase_3+155>
+   0x0000000000400f9e <+145>:	callq  0x401438 <explode_bomb>
+   0x0000000000400fa3 <+150>:	mov    $0x0,%eax
+   0x0000000000400fa8 <+155>:	cmpl   $0x5,(%rsp)
+   0x0000000000400fac <+159>:	jg     0x400fb4 <phase_3+167>
+   0x0000000000400fae <+161>:	cmp    0x4(%rsp),%eax
+   0x0000000000400fb2 <+165>:	je     0x400fb9 <phase_3+172>
+   0x0000000000400fb4 <+167>:	callq  0x401438 <explode_bomb>
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400fb9 <+172>:	mov    0x8(%rsp),%rax
+   0x0000000000400fbe <+177>:	xor    %fs:0x28,%rax
+   0x0000000000400fc7 <+186>:	je     0x400fce <phase_3+193>
+   0x0000000000400fc9 <+188>:	callq  0x400b00 <__stack_chk_fail@plt>
+   0x0000000000400fce <+193>:	add    $0x18,%rsp
+   0x0000000000400fd2 <+197>:	retq   
+End of assembler dump.
+(gdb) i r //The value of %eax is 2.
+rax            0x2                 2
+rbx            0x4021f0            4202992
+rcx            0x0                 0
+rdx            0x7fffffffde54      140737488346708
+rsi            0x0                 0
+rdi            0x7fffffffd800      140737488345088
+rbp            0x0                 0x0
+rsp            0x7fffffffde50      0x7fffffffde50
+r8             0xffffffff          4294967295
+r9             0x0                 0
+r10            0x7ffff7f61ac0      140737353489088
+r11            0x0                 0
+r12            0x400c60            4197472
+r13            0x7fffffffdf60      140737488346976
+r14            0x0                 0
+r15            0x0                 0
+rip            0x400f36            0x400f36 <phase_3+41>
+eflags         0x202               [ IF ]
+cs             0x33                51
+ss             0x2b                43
+ds             0x0                 0
+es             0x0                 0
+fs             0x0                 0
+--Type <RET> for more, q to quit, c to continue without paging--
+gs             0x0                 0
+(gdb) ni //We move to next line.
+0x0000000000400f3d in phase_3 ()
+(gdb) disa
+(gdb) disas //From here we can see that the explode_bomb function is not called so it is true.The code is jumped to next line.
+Dump of assembler code for function phase_3:
+   0x0000000000400f0d <+0>:	sub    $0x18,%rsp
+   0x0000000000400f11 <+4>:	mov    %fs:0x28,%rax
+   0x0000000000400f1a <+13>:	mov    %rax,0x8(%rsp)
+   0x0000000000400f1f <+18>:	xor    %eax,%eax
+   0x0000000000400f21 <+20>:	lea    0x4(%rsp),%rcx
+   0x0000000000400f26 <+25>:	mov    %rsp,%rdx
+   0x0000000000400f29 <+28>:	mov    $0x4025b7,%esi
+   0x0000000000400f2e <+33>:	callq  0x400bb0 <__isoc99_sscanf@plt>
+   0x0000000000400f33 <+38>:	cmp    $0x1,%eax
+   0x0000000000400f36 <+41>:	jg     0x400f3d <phase_3+48>
+   0x0000000000400f38 <+43>:	callq  0x401438 <explode_bomb>
+=> 0x0000000000400f3d <+48>:	cmpl   $0x7,(%rsp)
+   0x0000000000400f41 <+52>:	ja     0x400f9e <phase_3+145>
+   0x0000000000400f43 <+54>:	mov    (%rsp),%eax
+   0x0000000000400f46 <+57>:	jmpq   *0x402400(,%rax,8)
+   0x0000000000400f4d <+64>:	mov    $0x380,%eax
+   0x0000000000400f52 <+69>:	jmp    0x400f59 <phase_3+76>
+   0x0000000000400f54 <+71>:	mov    $0x0,%eax
+   0x0000000000400f59 <+76>:	sub    $0x3e4,%eax
+   0x0000000000400f5e <+81>:	jmp    0x400f65 <phase_3+88>
+   0x0000000000400f60 <+83>:	mov    $0x0,%eax
+   0x0000000000400f65 <+88>:	add    $0x21e,%eax
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400f6a <+93>:	jmp    0x400f71 <phase_3+100>
+   0x0000000000400f6c <+95>:	mov    $0x0,%eax
+   0x0000000000400f71 <+100>:	sub    $0x34,%eax
+   0x0000000000400f74 <+103>:	jmp    0x400f7b <phase_3+110>
+   0x0000000000400f76 <+105>:	mov    $0x0,%eax
+   0x0000000000400f7b <+110>:	add    $0x34,%eax
+   0x0000000000400f7e <+113>:	jmp    0x400f85 <phase_3+120>
+   0x0000000000400f80 <+115>:	mov    $0x0,%eax
+   0x0000000000400f85 <+120>:	sub    $0x34,%eax
+   0x0000000000400f88 <+123>:	jmp    0x400f8f <phase_3+130>
+   0x0000000000400f8a <+125>:	mov    $0x0,%eax
+   0x0000000000400f8f <+130>:	add    $0x34,%eax
+   0x0000000000400f92 <+133>:	jmp    0x400f99 <phase_3+140>
+   0x0000000000400f94 <+135>:	mov    $0x0,%eax
+   0x0000000000400f99 <+140>:	sub    $0x34,%eax
+   0x0000000000400f9c <+143>:	jmp    0x400fa8 <phase_3+155>
+   0x0000000000400f9e <+145>:	callq  0x401438 <explode_bomb>
+   0x0000000000400fa3 <+150>:	mov    $0x0,%eax
+   0x0000000000400fa8 <+155>:	cmpl   $0x5,(%rsp)
+   0x0000000000400fac <+159>:	jg     0x400fb4 <phase_3+167>
+   0x0000000000400fae <+161>:	cmp    0x4(%rsp),%eax
+   0x0000000000400fb2 <+165>:	je     0x400fb9 <phase_3+172>
+   0x0000000000400fb4 <+167>:	callq  0x401438 <explode_bomb>
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400fb9 <+172>:	mov    0x8(%rsp),%rax
+   0x0000000000400fbe <+177>:	xor    %fs:0x28,%rax
+   0x0000000000400fc7 <+186>:	je     0x400fce <phase_3+193>
+   0x0000000000400fc9 <+188>:	callq  0x400b00 <__stack_chk_fail@plt>
+   0x0000000000400fce <+193>:	add    $0x18,%rsp
+   0x0000000000400fd2 <+197>:	retq   
+End of assembler dump.
+(gdb) ni //We move to next line.
+0x0000000000400f41 in phase_3 ()
+(gdb) disas //We keep track of code.
+Dump of assembler code for function phase_3:
+   0x0000000000400f0d <+0>:	sub    $0x18,%rsp
+   0x0000000000400f11 <+4>:	mov    %fs:0x28,%rax
+   0x0000000000400f1a <+13>:	mov    %rax,0x8(%rsp)
+   0x0000000000400f1f <+18>:	xor    %eax,%eax
+   0x0000000000400f21 <+20>:	lea    0x4(%rsp),%rcx
+   0x0000000000400f26 <+25>:	mov    %rsp,%rdx
+   0x0000000000400f29 <+28>:	mov    $0x4025b7,%esi
+   0x0000000000400f2e <+33>:	callq  0x400bb0 <__isoc99_sscanf@plt>
+   0x0000000000400f33 <+38>:	cmp    $0x1,%eax
+   0x0000000000400f36 <+41>:	jg     0x400f3d <phase_3+48>
+   0x0000000000400f38 <+43>:	callq  0x401438 <explode_bomb>
+   0x0000000000400f3d <+48>:	cmpl   $0x7,(%rsp)
+=> 0x0000000000400f41 <+52>:	ja     0x400f9e <phase_3+145>
+   0x0000000000400f43 <+54>:	mov    (%rsp),%eax
+   0x0000000000400f46 <+57>:	jmpq   *0x402400(,%rax,8)
+   0x0000000000400f4d <+64>:	mov    $0x380,%eax
+   0x0000000000400f52 <+69>:	jmp    0x400f59 <phase_3+76>
+   0x0000000000400f54 <+71>:	mov    $0x0,%eax
+   0x0000000000400f59 <+76>:	sub    $0x3e4,%eax
+   0x0000000000400f5e <+81>:	jmp    0x400f65 <phase_3+88>
+   0x0000000000400f60 <+83>:	mov    $0x0,%eax
+   0x0000000000400f65 <+88>:	add    $0x21e,%eax
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400f6a <+93>:	jmp    0x400f71 <phase_3+100>
+   0x0000000000400f6c <+95>:	mov    $0x0,%eax
+   0x0000000000400f71 <+100>:	sub    $0x34,%eax
+   0x0000000000400f74 <+103>:	jmp    0x400f7b <phase_3+110>
+   0x0000000000400f76 <+105>:	mov    $0x0,%eax
+   0x0000000000400f7b <+110>:	add    $0x34,%eax
+   0x0000000000400f7e <+113>:	jmp    0x400f85 <phase_3+120>
+   0x0000000000400f80 <+115>:	mov    $0x0,%eax
+   0x0000000000400f85 <+120>:	sub    $0x34,%eax
+   0x0000000000400f88 <+123>:	jmp    0x400f8f <phase_3+130>
+   0x0000000000400f8a <+125>:	mov    $0x0,%eax
+   0x0000000000400f8f <+130>:	add    $0x34,%eax
+   0x0000000000400f92 <+133>:	jmp    0x400f99 <phase_3+140>
+   0x0000000000400f94 <+135>:	mov    $0x0,%eax
+   0x0000000000400f99 <+140>:	sub    $0x34,%eax
+   0x0000000000400f9c <+143>:	jmp    0x400fa8 <phase_3+155>
+   0x0000000000400f9e <+145>:	callq  0x401438 <explode_bomb>
+   0x0000000000400fa3 <+150>:	mov    $0x0,%eax
+   0x0000000000400fa8 <+155>:	cmpl   $0x5,(%rsp)
+   0x0000000000400fac <+159>:	jg     0x400fb4 <phase_3+167>
+   0x0000000000400fae <+161>:	cmp    0x4(%rsp),%eax
+   0x0000000000400fb2 <+165>:	je     0x400fb9 <phase_3+172>
+   0x0000000000400fb4 <+167>:	callq  0x401438 <explode_bomb>
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400fb9 <+172>:	mov    0x8(%rsp),%rax
+   0x0000000000400fbe <+177>:	xor    %fs:0x28,%rax
+   0x0000000000400fc7 <+186>:	je     0x400fce <phase_3+193>
+   0x0000000000400fc9 <+188>:	callq  0x400b00 <__stack_chk_fail@plt>
+   0x0000000000400fce <+193>:	add    $0x18,%rsp
+   0x0000000000400fd2 <+197>:	retq   
+End of assembler dump.
+(gdb) ni //We move to next line.
+0x0000000000400f43 in phase_3 ()
+(gdb) disas \\Here, value of %rsp is moved to %eax.
+Dump of assembler code for function phase_3:
+   0x0000000000400f0d <+0>:	sub    $0x18,%rsp
+   0x0000000000400f11 <+4>:	mov    %fs:0x28,%rax
+   0x0000000000400f1a <+13>:	mov    %rax,0x8(%rsp)
+   0x0000000000400f1f <+18>:	xor    %eax,%eax
+   0x0000000000400f21 <+20>:	lea    0x4(%rsp),%rcx
+   0x0000000000400f26 <+25>:	mov    %rsp,%rdx
+   0x0000000000400f29 <+28>:	mov    $0x4025b7,%esi
+   0x0000000000400f2e <+33>:	callq  0x400bb0 <__isoc99_sscanf@plt>
+   0x0000000000400f33 <+38>:	cmp    $0x1,%eax
+   0x0000000000400f36 <+41>:	jg     0x400f3d <phase_3+48>
+   0x0000000000400f38 <+43>:	callq  0x401438 <explode_bomb>
+   0x0000000000400f3d <+48>:	cmpl   $0x7,(%rsp)
+   0x0000000000400f41 <+52>:	ja     0x400f9e <phase_3+145>
+=> 0x0000000000400f43 <+54>:	mov    (%rsp),%eax
+   0x0000000000400f46 <+57>:	jmpq   *0x402400(,%rax,8)
+   0x0000000000400f4d <+64>:	mov    $0x380,%eax
+   0x0000000000400f52 <+69>:	jmp    0x400f59 <phase_3+76>
+   0x0000000000400f54 <+71>:	mov    $0x0,%eax
+   0x0000000000400f59 <+76>:	sub    $0x3e4,%eax
+   0x0000000000400f5e <+81>:	jmp    0x400f65 <phase_3+88>
+   0x0000000000400f60 <+83>:	mov    $0x0,%eax
+   0x0000000000400f65 <+88>:	add    $0x21e,%eax
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400f6a <+93>:	jmp    0x400f71 <phase_3+100>
+   0x0000000000400f6c <+95>:	mov    $0x0,%eax
+   0x0000000000400f71 <+100>:	sub    $0x34,%eax
+   0x0000000000400f74 <+103>:	jmp    0x400f7b <phase_3+110>
+   0x0000000000400f76 <+105>:	mov    $0x0,%eax
+   0x0000000000400f7b <+110>:	add    $0x34,%eax
+   0x0000000000400f7e <+113>:	jmp    0x400f85 <phase_3+120>
+   0x0000000000400f80 <+115>:	mov    $0x0,%eax
+   0x0000000000400f85 <+120>:	sub    $0x34,%eax
+   0x0000000000400f88 <+123>:	jmp    0x400f8f <phase_3+130>
+   0x0000000000400f8a <+125>:	mov    $0x0,%eax
+   0x0000000000400f8f <+130>:	add    $0x34,%eax
+   0x0000000000400f92 <+133>:	jmp    0x400f99 <phase_3+140>
+   0x0000000000400f94 <+135>:	mov    $0x0,%eax
+   0x0000000000400f99 <+140>:	sub    $0x34,%eax
+   0x0000000000400f9c <+143>:	jmp    0x400fa8 <phase_3+155>
+   0x0000000000400f9e <+145>:	callq  0x401438 <explode_bomb>
+   0x0000000000400fa3 <+150>:	mov    $0x0,%eax
+   0x0000000000400fa8 <+155>:	cmpl   $0x5,(%rsp)
+   0x0000000000400fac <+159>:	jg     0x400fb4 <phase_3+167>
+   0x0000000000400fae <+161>:	cmp    0x4(%rsp),%eax
+   0x0000000000400fb2 <+165>:	je     0x400fb9 <phase_3+172>
+   0x0000000000400fb4 <+167>:	callq  0x401438 <explode_bomb>
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400fb9 <+172>:	mov    0x8(%rsp),%rax
+   0x0000000000400fbe <+177>:	xor    %fs:0x28,%rax
+   0x0000000000400fc7 <+186>:	je     0x400fce <phase_3+193>
+   0x0000000000400fc9 <+188>:	callq  0x400b00 <__stack_chk_fail@plt>
+   0x0000000000400fce <+193>:	add    $0x18,%rsp
+   0x0000000000400fd2 <+197>:	retq   
+End of assembler dump.
+(gdb) i r //From here we can see, the value of rax is 2.
+rax            0x2                 2
+rbx            0x4021f0            4202992
+rcx            0x0                 0
+rdx            0x7fffffffde54      140737488346708
+rsi            0x0                 0
+rdi            0x7fffffffd800      140737488345088
+rbp            0x0                 0x0
+rsp            0x7fffffffde50      0x7fffffffde50
+r8             0xffffffff          4294967295
+r9             0x0                 0
+r10            0x7ffff7f61ac0      140737353489088
+r11            0x0                 0
+r12            0x400c60            4197472
+r13            0x7fffffffdf60      140737488346976
+r14            0x0                 0
+r15            0x0                 0
+rip            0x400f43            0x400f43 <phase_3+54>
+eflags         0x293               [ CF AF SF IF ]
+cs             0x33                51
+ss             0x2b                43
+ds             0x0                 0
+es             0x0                 0
+fs             0x0                 0
+--Type <RET> for more, q to quit, c to continue without paging--
+gs             0x0                 0
+(gdb) ni //We move to next line.
+0x0000000000400f46 in phase_3 ()
+(gdb) disas //We keep track of code.
+Dump of assembler code for function phase_3:
+   0x0000000000400f0d <+0>:	sub    $0x18,%rsp
+   0x0000000000400f11 <+4>:	mov    %fs:0x28,%rax
+   0x0000000000400f1a <+13>:	mov    %rax,0x8(%rsp)
+   0x0000000000400f1f <+18>:	xor    %eax,%eax
+   0x0000000000400f21 <+20>:	lea    0x4(%rsp),%rcx
+   0x0000000000400f26 <+25>:	mov    %rsp,%rdx
+   0x0000000000400f29 <+28>:	mov    $0x4025b7,%esi
+   0x0000000000400f2e <+33>:	callq  0x400bb0 <__isoc99_sscanf@plt>
+   0x0000000000400f33 <+38>:	cmp    $0x1,%eax
+   0x0000000000400f36 <+41>:	jg     0x400f3d <phase_3+48>
+   0x0000000000400f38 <+43>:	callq  0x401438 <explode_bomb>
+   0x0000000000400f3d <+48>:	cmpl   $0x7,(%rsp)
+   0x0000000000400f41 <+52>:	ja     0x400f9e <phase_3+145>
+   0x0000000000400f43 <+54>:	mov    (%rsp),%eax
+=> 0x0000000000400f46 <+57>:	jmpq   *0x402400(,%rax,8)
+   0x0000000000400f4d <+64>:	mov    $0x380,%eax
+   0x0000000000400f52 <+69>:	jmp    0x400f59 <phase_3+76>
+   0x0000000000400f54 <+71>:	mov    $0x0,%eax
+   0x0000000000400f59 <+76>:	sub    $0x3e4,%eax
+   0x0000000000400f5e <+81>:	jmp    0x400f65 <phase_3+88>
+   0x0000000000400f60 <+83>:	mov    $0x0,%eax
+   0x0000000000400f65 <+88>:	add    $0x21e,%eax
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400f6a <+93>:	jmp    0x400f71 <phase_3+100>
+   0x0000000000400f6c <+95>:	mov    $0x0,%eax
+   0x0000000000400f71 <+100>:	sub    $0x34,%eax
+   0x0000000000400f74 <+103>:	jmp    0x400f7b <phase_3+110>
+   0x0000000000400f76 <+105>:	mov    $0x0,%eax
+   0x0000000000400f7b <+110>:	add    $0x34,%eax
+   0x0000000000400f7e <+113>:	jmp    0x400f85 <phase_3+120>
+   0x0000000000400f80 <+115>:	mov    $0x0,%eax
+   0x0000000000400f85 <+120>:	sub    $0x34,%eax
+   0x0000000000400f88 <+123>:	jmp    0x400f8f <phase_3+130>
+   0x0000000000400f8a <+125>:	mov    $0x0,%eax
+   0x0000000000400f8f <+130>:	add    $0x34,%eax
+   0x0000000000400f92 <+133>:	jmp    0x400f99 <phase_3+140>
+   0x0000000000400f94 <+135>:	mov    $0x0,%eax
+   0x0000000000400f99 <+140>:	sub    $0x34,%eax
+   0x0000000000400f9c <+143>:	jmp    0x400fa8 <phase_3+155>
+   0x0000000000400f9e <+145>:	callq  0x401438 <explode_bomb>
+   0x0000000000400fa3 <+150>:	mov    $0x0,%eax
+   0x0000000000400fa8 <+155>:	cmpl   $0x5,(%rsp)
+   0x0000000000400fac <+159>:	jg     0x400fb4 <phase_3+167>
+   0x0000000000400fae <+161>:	cmp    0x4(%rsp),%eax
+   0x0000000000400fb2 <+165>:	je     0x400fb9 <phase_3+172>
+   0x0000000000400fb4 <+167>:	callq  0x401438 <explode_bomb>
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400fb9 <+172>:	mov    0x8(%rsp),%rax
+   0x0000000000400fbe <+177>:	xor    %fs:0x28,%rax
+   0x0000000000400fc7 <+186>:	je     0x400fce <phase_3+193>
+   0x0000000000400fc9 <+188>:	callq  0x400b00 <__stack_chk_fail@plt>
+   0x0000000000400fce <+193>:	add    $0x18,%rsp
+   0x0000000000400fd2 <+197>:	retq   
+End of assembler dump.
+(gdb) ni //We move to the next line.
+0x0000000000400f60 in phase_3 ()
+(gdb) disas //Here, the value of 0x0 to %eax.
+Dump of assembler code for function phase_3:
+   0x0000000000400f0d <+0>:	sub    $0x18,%rsp
+   0x0000000000400f11 <+4>:	mov    %fs:0x28,%rax
+   0x0000000000400f1a <+13>:	mov    %rax,0x8(%rsp)
+   0x0000000000400f1f <+18>:	xor    %eax,%eax
+   0x0000000000400f21 <+20>:	lea    0x4(%rsp),%rcx
+   0x0000000000400f26 <+25>:	mov    %rsp,%rdx
+   0x0000000000400f29 <+28>:	mov    $0x4025b7,%esi
+   0x0000000000400f2e <+33>:	callq  0x400bb0 <__isoc99_sscanf@plt>
+   0x0000000000400f33 <+38>:	cmp    $0x1,%eax
+   0x0000000000400f36 <+41>:	jg     0x400f3d <phase_3+48>
+   0x0000000000400f38 <+43>:	callq  0x401438 <explode_bomb>
+   0x0000000000400f3d <+48>:	cmpl   $0x7,(%rsp)
+   0x0000000000400f41 <+52>:	ja     0x400f9e <phase_3+145>
+   0x0000000000400f43 <+54>:	mov    (%rsp),%eax
+   0x0000000000400f46 <+57>:	jmpq   *0x402400(,%rax,8)
+   0x0000000000400f4d <+64>:	mov    $0x380,%eax
+   0x0000000000400f52 <+69>:	jmp    0x400f59 <phase_3+76>
+   0x0000000000400f54 <+71>:	mov    $0x0,%eax
+   0x0000000000400f59 <+76>:	sub    $0x3e4,%eax
+   0x0000000000400f5e <+81>:	jmp    0x400f65 <phase_3+88>
+=> 0x0000000000400f60 <+83>:	mov    $0x0,%eax
+   0x0000000000400f65 <+88>:	add    $0x21e,%eax
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400f6a <+93>:	jmp    0x400f71 <phase_3+100>
+   0x0000000000400f6c <+95>:	mov    $0x0,%eax
+   0x0000000000400f71 <+100>:	sub    $0x34,%eax
+   0x0000000000400f74 <+103>:	jmp    0x400f7b <phase_3+110>
+   0x0000000000400f76 <+105>:	mov    $0x0,%eax
+   0x0000000000400f7b <+110>:	add    $0x34,%eax
+   0x0000000000400f7e <+113>:	jmp    0x400f85 <phase_3+120>
+   0x0000000000400f80 <+115>:	mov    $0x0,%eax
+   0x0000000000400f85 <+120>:	sub    $0x34,%eax
+   0x0000000000400f88 <+123>:	jmp    0x400f8f <phase_3+130>
+   0x0000000000400f8a <+125>:	mov    $0x0,%eax
+   0x0000000000400f8f <+130>:	add    $0x34,%eax
+   0x0000000000400f92 <+133>:	jmp    0x400f99 <phase_3+140>
+   0x0000000000400f94 <+135>:	mov    $0x0,%eax
+   0x0000000000400f99 <+140>:	sub    $0x34,%eax
+   0x0000000000400f9c <+143>:	jmp    0x400fa8 <phase_3+155>
+   0x0000000000400f9e <+145>:	callq  0x401438 <explode_bomb>
+   0x0000000000400fa3 <+150>:	mov    $0x0,%eax
+   0x0000000000400fa8 <+155>:	cmpl   $0x5,(%rsp)
+   0x0000000000400fac <+159>:	jg     0x400fb4 <phase_3+167>
+   0x0000000000400fae <+161>:	cmp    0x4(%rsp),%eax
+   0x0000000000400fb2 <+165>:	je     0x400fb9 <phase_3+172>
+   0x0000000000400fb4 <+167>:	callq  0x401438 <explode_bomb>
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400fb9 <+172>:	mov    0x8(%rsp),%rax
+   0x0000000000400fbe <+177>:	xor    %fs:0x28,%rax
+   0x0000000000400fc7 <+186>:	je     0x400fce <phase_3+193>
+   0x0000000000400fc9 <+188>:	callq  0x400b00 <__stack_chk_fail@plt>
+   0x0000000000400fce <+193>:	add    $0x18,%rsp
+   0x0000000000400fd2 <+197>:	retq   
+End of assembler dump.
+(gdb) i r //The value of register rax or %eax is 2.
+rax            0x2                 2
+rbx            0x4021f0            4202992
+rcx            0x0                 0
+rdx            0x7fffffffde54      140737488346708
+rsi            0x0                 0
+rdi            0x7fffffffd800      140737488345088
+rbp            0x0                 0x0
+rsp            0x7fffffffde50      0x7fffffffde50
+r8             0xffffffff          4294967295
+r9             0x0                 0
+r10            0x7ffff7f61ac0      140737353489088
+r11            0x0                 0
+r12            0x400c60            4197472
+r13            0x7fffffffdf60      140737488346976
+r14            0x0                 0
+r15            0x0                 0
+rip            0x400f60            0x400f60 <phase_3+83>
+eflags         0x293               [ CF AF SF IF ]
+cs             0x33                51
+ss             0x2b                43
+ds             0x0                 0
+es             0x0                 0
+fs             0x0                 0
+--Type <RET> for more, q to quit, c to continue without paging--
+gs             0x0                 0
+(gdb) ni //We move to next line.
+0x0000000000400f65 in phase_3 ()
+(gdb) disas //WE add value of 0x21e and %eax.
+Dump of assembler code for function phase_3:
+   0x0000000000400f0d <+0>:	sub    $0x18,%rsp
+   0x0000000000400f11 <+4>:	mov    %fs:0x28,%rax
+   0x0000000000400f1a <+13>:	mov    %rax,0x8(%rsp)
+   0x0000000000400f1f <+18>:	xor    %eax,%eax
+   0x0000000000400f21 <+20>:	lea    0x4(%rsp),%rcx
+   0x0000000000400f26 <+25>:	mov    %rsp,%rdx
+   0x0000000000400f29 <+28>:	mov    $0x4025b7,%esi
+   0x0000000000400f2e <+33>:	callq  0x400bb0 <__isoc99_sscanf@plt>
+   0x0000000000400f33 <+38>:	cmp    $0x1,%eax
+   0x0000000000400f36 <+41>:	jg     0x400f3d <phase_3+48>
+   0x0000000000400f38 <+43>:	callq  0x401438 <explode_bomb>
+   0x0000000000400f3d <+48>:	cmpl   $0x7,(%rsp)
+   0x0000000000400f41 <+52>:	ja     0x400f9e <phase_3+145>
+   0x0000000000400f43 <+54>:	mov    (%rsp),%eax
+   0x0000000000400f46 <+57>:	jmpq   *0x402400(,%rax,8)
+   0x0000000000400f4d <+64>:	mov    $0x380,%eax
+   0x0000000000400f52 <+69>:	jmp    0x400f59 <phase_3+76>
+   0x0000000000400f54 <+71>:	mov    $0x0,%eax
+   0x0000000000400f59 <+76>:	sub    $0x3e4,%eax
+   0x0000000000400f5e <+81>:	jmp    0x400f65 <phase_3+88>
+   0x0000000000400f60 <+83>:	mov    $0x0,%eax
+=> 0x0000000000400f65 <+88>:	add    $0x21e,%eax
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400f6a <+93>:	jmp    0x400f71 <phase_3+100>
+   0x0000000000400f6c <+95>:	mov    $0x0,%eax
+   0x0000000000400f71 <+100>:	sub    $0x34,%eax
+   0x0000000000400f74 <+103>:	jmp    0x400f7b <phase_3+110>
+   0x0000000000400f76 <+105>:	mov    $0x0,%eax
+   0x0000000000400f7b <+110>:	add    $0x34,%eax
+   0x0000000000400f7e <+113>:	jmp    0x400f85 <phase_3+120>
+   0x0000000000400f80 <+115>:	mov    $0x0,%eax
+   0x0000000000400f85 <+120>:	sub    $0x34,%eax
+   0x0000000000400f88 <+123>:	jmp    0x400f8f <phase_3+130>
+   0x0000000000400f8a <+125>:	mov    $0x0,%eax
+   0x0000000000400f8f <+130>:	add    $0x34,%eax
+   0x0000000000400f92 <+133>:	jmp    0x400f99 <phase_3+140>
+   0x0000000000400f94 <+135>:	mov    $0x0,%eax
+   0x0000000000400f99 <+140>:	sub    $0x34,%eax
+   0x0000000000400f9c <+143>:	jmp    0x400fa8 <phase_3+155>
+   0x0000000000400f9e <+145>:	callq  0x401438 <explode_bomb>
+   0x0000000000400fa3 <+150>:	mov    $0x0,%eax
+   0x0000000000400fa8 <+155>:	cmpl   $0x5,(%rsp)
+   0x0000000000400fac <+159>:	jg     0x400fb4 <phase_3+167>
+   0x0000000000400fae <+161>:	cmp    0x4(%rsp),%eax
+   0x0000000000400fb2 <+165>:	je     0x400fb9 <phase_3+172>
+   0x0000000000400fb4 <+167>:	callq  0x401438 <explode_bomb>
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400fb9 <+172>:	mov    0x8(%rsp),%rax
+   0x0000000000400fbe <+177>:	xor    %fs:0x28,%rax
+   0x0000000000400fc7 <+186>:	je     0x400fce <phase_3+193>
+   0x0000000000400fc9 <+188>:	callq  0x400b00 <__stack_chk_fail@plt>
+   0x0000000000400fce <+193>:	add    $0x18,%rsp
+   0x0000000000400fd2 <+197>:	retq    
+End of assembler dump.
+(gdb) i r //Shows the value and address of registers.
+rax            0x0                 0
+rbx            0x4021f0            4202992
+rcx            0x0                 0
+rdx            0x7fffffffde54      140737488346708
+rsi            0x0                 0
+rdi            0x7fffffffd800      140737488345088
+rbp            0x0                 0x0
+rsp            0x7fffffffde50      0x7fffffffde50
+r8             0xffffffff          4294967295
+r9             0x0                 0
+r10            0x7ffff7f61ac0      140737353489088
+r11            0x0                 0
+r12            0x400c60            4197472
+r13            0x7fffffffdf60      140737488346976
+r14            0x0                 0
+r15            0x0                 0
+rip            0x400f65            0x400f65 <phase_3+88>
+eflags         0x293               [ CF AF SF IF ]
+cs             0x33                51
+ss             0x2b                43
+ds             0x0                 0
+es             0x0                 0
+fs             0x0                 0
+--Type <RET> for more, q to quit, c to continue without paging--
+gs             0x0                 0
+(gdb) ni //We move to next line.
+0x0000000000400f6a in phase_3 ()
+(gdb) disas //We jump from line 93 to 100.
+Dump of assembler code for function phase_3:
+   0x0000000000400f0d <+0>:	sub    $0x18,%rsp
+   0x0000000000400f11 <+4>:	mov    %fs:0x28,%rax
+   0x0000000000400f1a <+13>:	mov    %rax,0x8(%rsp)
+   0x0000000000400f1f <+18>:	xor    %eax,%eax
+   0x0000000000400f21 <+20>:	lea    0x4(%rsp),%rcx
+   0x0000000000400f26 <+25>:	mov    %rsp,%rdx
+   0x0000000000400f29 <+28>:	mov    $0x4025b7,%esi
+   0x0000000000400f2e <+33>:	callq  0x400bb0 <__isoc99_sscanf@plt>
+   0x0000000000400f33 <+38>:	cmp    $0x1,%eax
+   0x0000000000400f36 <+41>:	jg     0x400f3d <phase_3+48>
+   0x0000000000400f38 <+43>:	callq  0x401438 <explode_bomb>
+   0x0000000000400f3d <+48>:	cmpl   $0x7,(%rsp)
+   0x0000000000400f41 <+52>:	ja     0x400f9e <phase_3+145>
+   0x0000000000400f43 <+54>:	mov    (%rsp),%eax
+   0x0000000000400f46 <+57>:	jmpq   *0x402400(,%rax,8)
+   0x0000000000400f4d <+64>:	mov    $0x380,%eax
+   0x0000000000400f52 <+69>:	jmp    0x400f59 <phase_3+76>
+   0x0000000000400f54 <+71>:	mov    $0x0,%eax
+   0x0000000000400f59 <+76>:	sub    $0x3e4,%eax
+   0x0000000000400f5e <+81>:	jmp    0x400f65 <phase_3+88>
+   0x0000000000400f60 <+83>:	mov    $0x0,%eax
+   0x0000000000400f65 <+88>:	add    $0x21e,%eax
+--Type <RET> for more, q to quit, c to continue without paging--
+=> 0x0000000000400f6a <+93>:	jmp    0x400f71 <phase_3+100>
+   0x0000000000400f6c <+95>:	mov    $0x0,%eax
+   0x0000000000400f71 <+100>:	sub    $0x34,%eax
+   0x0000000000400f74 <+103>:	jmp    0x400f7b <phase_3+110>
+   0x0000000000400f76 <+105>:	mov    $0x0,%eax
+   0x0000000000400f7b <+110>:	add    $0x34,%eax
+   0x0000000000400f7e <+113>:	jmp    0x400f85 <phase_3+120>
+   0x0000000000400f80 <+115>:	mov    $0x0,%eax
+   0x0000000000400f85 <+120>:	sub    $0x34,%eax
+   0x0000000000400f88 <+123>:	jmp    0x400f8f <phase_3+130>
+   0x0000000000400f8a <+125>:	mov    $0x0,%eax
+   0x0000000000400f8f <+130>:	add    $0x34,%eax
+   0x0000000000400f92 <+133>:	jmp    0x400f99 <phase_3+140>
+   0x0000000000400f94 <+135>:	mov    $0x0,%eax
+   0x0000000000400f99 <+140>:	sub    $0x34,%eax
+   0x0000000000400f9c <+143>:	jmp    0x400fa8 <phase_3+155>
+   0x0000000000400f9e <+145>:	callq  0x401438 <explode_bomb>
+   0x0000000000400fa3 <+150>:	mov    $0x0,%eax
+   0x0000000000400fa8 <+155>:	cmpl   $0x5,(%rsp)
+   0x0000000000400fac <+159>:	jg     0x400fb4 <phase_3+167>
+   0x0000000000400fae <+161>:	cmp    0x4(%rsp),%eax
+   0x0000000000400fb2 <+165>:	je     0x400fb9 <phase_3+172>
+   0x0000000000400fb4 <+167>:	callq  0x401438 <explode_bomb>
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400fb9 <+172>:	mov    0x8(%rsp),%rax
+   0x0000000000400fbe <+177>:	xor    %fs:0x28,%rax
+   0x0000000000400fc7 <+186>:	je     0x400fce <phase_3+193>
+   0x0000000000400fc9 <+188>:	callq  0x400b00 <__stack_chk_fail@plt>
+   0x0000000000400fce <+193>:	add    $0x18,%rsp
+   0x0000000000400fd2 <+197>:	retq   
+End of assembler dump.
+(gdb) ni //We move to next line of code.
+0x0000000000400f71 in phase_3 ()
+(gdb) disas //We substract the value of $0x0 to %eax.
+Dump of assembler code for function phase_3:
+   0x0000000000400f0d <+0>:	sub    $0x18,%rsp
+   0x0000000000400f11 <+4>:	mov    %fs:0x28,%rax
+   0x0000000000400f1a <+13>:	mov    %rax,0x8(%rsp)
+   0x0000000000400f1f <+18>:	xor    %eax,%eax
+   0x0000000000400f21 <+20>:	lea    0x4(%rsp),%rcx
+   0x0000000000400f26 <+25>:	mov    %rsp,%rdx
+   0x0000000000400f29 <+28>:	mov    $0x4025b7,%esi
+   0x0000000000400f2e <+33>:	callq  0x400bb0 <__isoc99_sscanf@plt>
+   0x0000000000400f33 <+38>:	cmp    $0x1,%eax
+   0x0000000000400f36 <+41>:	jg     0x400f3d <phase_3+48>
+   0x0000000000400f38 <+43>:	callq  0x401438 <explode_bomb>
+   0x0000000000400f3d <+48>:	cmpl   $0x7,(%rsp)
+   0x0000000000400f41 <+52>:	ja     0x400f9e <phase_3+145>
+   0x0000000000400f43 <+54>:	mov    (%rsp),%eax
+   0x0000000000400f46 <+57>:	jmpq   *0x402400(,%rax,8)
+   0x0000000000400f4d <+64>:	mov    $0x380,%eax
+   0x0000000000400f52 <+69>:	jmp    0x400f59 <phase_3+76>
+   0x0000000000400f54 <+71>:	mov    $0x0,%eax
+   0x0000000000400f59 <+76>:	sub    $0x3e4,%eax
+   0x0000000000400f5e <+81>:	jmp    0x400f65 <phase_3+88>
+   0x0000000000400f60 <+83>:	mov    $0x0,%eax
+   0x0000000000400f65 <+88>:	add    $0x21e,%eax
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400f6a <+93>:	jmp    0x400f71 <phase_3+100>
+   0x0000000000400f6c <+95>:	mov    $0x0,%eax
+=> 0x0000000000400f71 <+100>:	sub    $0x34,%eax
+   0x0000000000400f74 <+103>:	jmp    0x400f7b <phase_3+110>
+   0x0000000000400f76 <+105>:	mov    $0x0,%eax
+   0x0000000000400f7b <+110>:	add    $0x34,%eax
+   0x0000000000400f7e <+113>:	jmp    0x400f85 <phase_3+120>
+   0x0000000000400f80 <+115>:	mov    $0x0,%eax
+   0x0000000000400f85 <+120>:	sub    $0x34,%eax
+   0x0000000000400f88 <+123>:	jmp    0x400f8f <phase_3+130>
+   0x0000000000400f8a <+125>:	mov    $0x0,%eax
+   0x0000000000400f8f <+130>:	add    $0x34,%eax
+   0x0000000000400f92 <+133>:	jmp    0x400f99 <phase_3+140>
+   0x0000000000400f94 <+135>:	mov    $0x0,%eax
+   0x0000000000400f99 <+140>:	sub    $0x34,%eax
+   0x0000000000400f9c <+143>:	jmp    0x400fa8 <phase_3+155>
+   0x0000000000400f9e <+145>:	callq  0x401438 <explode_bomb>
+   0x0000000000400fa3 <+150>:	mov    $0x0,%eax
+   0x0000000000400fa8 <+155>:	cmpl   $0x5,(%rsp)
+   0x0000000000400fac <+159>:	jg     0x400fb4 <phase_3+167>
+   0x0000000000400fae <+161>:	cmp    0x4(%rsp),%eax
+   0x0000000000400fb2 <+165>:	je     0x400fb9 <phase_3+172>
+   0x0000000000400fb4 <+167>:	callq  0x401438 <explode_bomb>
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400fb9 <+172>:	mov    0x8(%rsp),%rax
+   0x0000000000400fbe <+177>:	xor    %fs:0x28,%rax
+   0x0000000000400fc7 <+186>:	je     0x400fce <phase_3+193>
+   0x0000000000400fc9 <+188>:	callq  0x400b00 <__stack_chk_fail@plt>
+   0x0000000000400fce <+193>:	add    $0x18,%rsp
+   0x0000000000400fd2 <+197>:	retq   
+End of assembler dump.
+(gdb) ni //We move to next line.
+0x0000000000400f74 in phase_3 ()
+(gdb) disas //We jump to line 110.
+Dump of assembler code for function phase_3:
+   0x0000000000400f0d <+0>:	sub    $0x18,%rsp
+   0x0000000000400f11 <+4>:	mov    %fs:0x28,%rax
+   0x0000000000400f1a <+13>:	mov    %rax,0x8(%rsp)
+   0x0000000000400f1f <+18>:	xor    %eax,%eax
+   0x0000000000400f21 <+20>:	lea    0x4(%rsp),%rcx
+   0x0000000000400f26 <+25>:	mov    %rsp,%rdx
+   0x0000000000400f29 <+28>:	mov    $0x4025b7,%esi
+   0x0000000000400f2e <+33>:	callq  0x400bb0 <__isoc99_sscanf@plt>
+   0x0000000000400f33 <+38>:	cmp    $0x1,%eax
+   0x0000000000400f36 <+41>:	jg     0x400f3d <phase_3+48>
+   0x0000000000400f38 <+43>:	callq  0x401438 <explode_bomb>
+   0x0000000000400f3d <+48>:	cmpl   $0x7,(%rsp)
+   0x0000000000400f41 <+52>:	ja     0x400f9e <phase_3+145>
+   0x0000000000400f43 <+54>:	mov    (%rsp),%eax
+   0x0000000000400f46 <+57>:	jmpq   *0x402400(,%rax,8)
+   0x0000000000400f4d <+64>:	mov    $0x380,%eax
+   0x0000000000400f52 <+69>:	jmp    0x400f59 <phase_3+76>
+   0x0000000000400f54 <+71>:	mov    $0x0,%eax
+   0x0000000000400f59 <+76>:	sub    $0x3e4,%eax
+   0x0000000000400f5e <+81>:	jmp    0x400f65 <phase_3+88>
+   0x0000000000400f60 <+83>:	mov    $0x0,%eax
+   0x0000000000400f65 <+88>:	add    $0x21e,%eax
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400f6a <+93>:	jmp    0x400f71 <phase_3+100>
+   0x0000000000400f6c <+95>:	mov    $0x0,%eax
+   0x0000000000400f71 <+100>:	sub    $0x34,%eax
+=> 0x0000000000400f74 <+103>:	jmp    0x400f7b <phase_3+110>
+   0x0000000000400f76 <+105>:	mov    $0x0,%eax
+   0x0000000000400f7b <+110>:	add    $0x34,%eax
+   0x0000000000400f7e <+113>:	jmp    0x400f85 <phase_3+120>
+   0x0000000000400f80 <+115>:	mov    $0x0,%eax
+   0x0000000000400f85 <+120>:	sub    $0x34,%eax
+   0x0000000000400f88 <+123>:	jmp    0x400f8f <phase_3+130>
+   0x0000000000400f8a <+125>:	mov    $0x0,%eax
+   0x0000000000400f8f <+130>:	add    $0x34,%eax
+   0x0000000000400f92 <+133>:	jmp    0x400f99 <phase_3+140>
+   0x0000000000400f94 <+135>:	mov    $0x0,%eax
+   0x0000000000400f99 <+140>:	sub    $0x34,%eax
+   0x0000000000400f9c <+143>:	jmp    0x400fa8 <phase_3+155>
+   0x0000000000400f9e <+145>:	callq  0x401438 <explode_bomb>
+   0x0000000000400fa3 <+150>:	mov    $0x0,%eax
+   0x0000000000400fa8 <+155>:	cmpl   $0x5,(%rsp)
+   0x0000000000400fac <+159>:	jg     0x400fb4 <phase_3+167>
+   0x0000000000400fae <+161>:	cmp    0x4(%rsp),%eax
+   0x0000000000400fb2 <+165>:	je     0x400fb9 <phase_3+172>
+   0x0000000000400fb4 <+167>:	callq  0x401438 <explode_bomb>
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400fb9 <+172>:	mov    0x8(%rsp),%rax
+   0x0000000000400fbe <+177>:	xor    %fs:0x28,%rax
+   0x0000000000400fc7 <+186>:	je     0x400fce <phase_3+193>
+   0x0000000000400fc9 <+188>:	callq  0x400b00 <__stack_chk_fail@plt>
+   0x0000000000400fce <+193>:	add    $0x18,%rsp
+   0x0000000000400fd2 <+197>:	retq   
+End of assembler dump.
+(gdb) i r //The value for the rax or % eax is 490.
+rax            0x1ea               490
+rbx            0x4021f0            4202992
+rcx            0x0                 0
+rdx            0x7fffffffde54      140737488346708
+rsi            0x0                 0
+rdi            0x7fffffffd800      140737488345088
+rbp            0x0                 0x0
+rsp            0x7fffffffde50      0x7fffffffde50
+r8             0xffffffff          4294967295
+r9             0x0                 0
+r10            0x7ffff7f61ac0      140737353489088
+r11            0x0                 0
+r12            0x400c60            4197472
+r13            0x7fffffffdf60      140737488346976
+r14            0x0                 0
+r15            0x0                 0
+rip            0x400f74            0x400f74 <phase_3+103>
+eflags         0x202               [ IF ]
+cs             0x33                51
+ss             0x2b                43
+ds             0x0                 0
+es             0x0                 0
+fs             0x0                 0
+--Type <RET> for more, q to quit, c to continue without paging--
+gs             0x0                 0
+(gdb) ni //We moved to next line.
+0x0000000000400f7b in phase_3 ()
+(gdb) ni //WE move to the next line.
+0x0000000000400f7e in phase_3 ()
+(gdb) disas //In here, we jumped to the line 120.
+Dump of assembler code for function phase_3:
+   0x0000000000400f0d <+0>:	sub    $0x18,%rsp
+   0x0000000000400f11 <+4>:	mov    %fs:0x28,%rax
+   0x0000000000400f1a <+13>:	mov    %rax,0x8(%rsp)
+   0x0000000000400f1f <+18>:	xor    %eax,%eax
+   0x0000000000400f21 <+20>:	lea    0x4(%rsp),%rcx
+   0x0000000000400f26 <+25>:	mov    %rsp,%rdx
+   0x0000000000400f29 <+28>:	mov    $0x4025b7,%esi
+   0x0000000000400f2e <+33>:	callq  0x400bb0 <__isoc99_sscanf@plt>
+   0x0000000000400f33 <+38>:	cmp    $0x1,%eax
+   0x0000000000400f36 <+41>:	jg     0x400f3d <phase_3+48>
+   0x0000000000400f38 <+43>:	callq  0x401438 <explode_bomb>
+   0x0000000000400f3d <+48>:	cmpl   $0x7,(%rsp)
+   0x0000000000400f41 <+52>:	ja     0x400f9e <phase_3+145>
+   0x0000000000400f43 <+54>:	mov    (%rsp),%eax
+   0x0000000000400f46 <+57>:	jmpq   *0x402400(,%rax,8)
+   0x0000000000400f4d <+64>:	mov    $0x380,%eax
+   0x0000000000400f52 <+69>:	jmp    0x400f59 <phase_3+76>
+   0x0000000000400f54 <+71>:	mov    $0x0,%eax
+   0x0000000000400f59 <+76>:	sub    $0x3e4,%eax
+   0x0000000000400f5e <+81>:	jmp    0x400f65 <phase_3+88>
+   0x0000000000400f60 <+83>:	mov    $0x0,%eax
+   0x0000000000400f65 <+88>:	add    $0x21e,%eax
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400f6a <+93>:	jmp    0x400f71 <phase_3+100>
+   0x0000000000400f6c <+95>:	mov    $0x0,%eax
+   0x0000000000400f71 <+100>:	sub    $0x34,%eax
+   0x0000000000400f74 <+103>:	jmp    0x400f7b <phase_3+110>
+   0x0000000000400f76 <+105>:	mov    $0x0,%eax //In this line, the value of $0x0 move to %eax
+   0x0000000000400f7b <+110>:	add    $0x34,%eax //In this line, the value of $0x34 is added to %eax.
+=> 0x0000000000400f7e <+113>:	jmp    0x400f85 <phase_3+120> //We jumped to the line 120.
+   0x0000000000400f80 <+115>:	mov    $0x0,%eax //We move the value from $0x0 to %eax.
+   0x0000000000400f85 <+120>:	sub    $0x34,%eax//We substract the value of $0x34 and %eax.
+   0x0000000000400f88 <+123>:	jmp    0x400f8f <phase_3+130> //Then in this line we jump to line 130.
+   0x0000000000400f8a <+125>:	mov    $0x0,%eax //We move value of $0x0 to %eax.
+   0x0000000000400f8f <+130>:	add    $0x34,%eax //Next we add $0x34 and %eax register's value.
+   0x0000000000400f92 <+133>:	jmp    0x400f99 <phase_3+140> //We the jumped to line 140
+   0x0000000000400f94 <+135>:	mov    $0x0,%eax
+   0x0000000000400f99 <+140>:	sub    $0x34,%eax //In here, we substract the value of $0x34 and %eax.
+   0x0000000000400f9c <+143>:	jmp    0x400fa8 <phase_3+155> //We then jump to line 155.
+   0x0000000000400f9e <+145>:	callq  0x401438 <explode_bomb>
+   0x0000000000400fa3 <+150>:	mov    $0x0,%eax
+   0x0000000000400fa8 <+155>:	cmpl   $0x5,(%rsp) //We compare value of $0x5 and %rsp 
+   0x0000000000400fac <+159>:	jg     0x400fb4 <phase_3+167>//Since the value is not equal,it will move to next line.
+   0x0000000000400fae <+161>:	cmp    0x4(%rsp),%eax
+   0x0000000000400fb2 <+165>:	je     0x400fb9 <phase_3+172>
+   0x0000000000400fb4 <+167>:	callq  0x401438 <explode_bomb>
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400fb9 <+172>:	mov    0x8(%rsp),%rax
+   0x0000000000400fbe <+177>:	xor    %fs:0x28,%rax
+   0x0000000000400fc7 <+186>:	je     0x400fce <phase_3+193>
+   0x0000000000400fc9 <+188>:	callq  0x400b00 <__stack_chk_fail@plt>
+   0x0000000000400fce <+193>:	add    $0x18,%rsp
+   0x0000000000400fd2 <+197>:	retq   
+End of assembler dump.
+(gdb) i r //The value of rax is 542.
+rax            0x21e               542
+rbx            0x4021f0            4202992
+rcx            0x0                 0
+rdx            0x7fffffffde54      140737488346708
+rsi            0x0                 0
+rdi            0x7fffffffd800      140737488345088
+rbp            0x0                 0x0
+rsp            0x7fffffffde50      0x7fffffffde50
+r8             0xffffffff          4294967295
+r9             0x0                 0
+r10            0x7ffff7f61ac0      140737353489088
+r11            0x0                 0
+r12            0x400c60            4197472
+r13            0x7fffffffdf60      140737488346976
+r14            0x0                 0
+r15            0x0                 0
+rip            0x400f7e            0x400f7e <phase_3+113>
+eflags         0x206               [ PF IF ]
+cs             0x33                51
+ss             0x2b                43
+ds             0x0                 0
+es             0x0                 0
+fs             0x0                 0
+--Type <RET> for more, q to quit, c to continue without paging--
+gs             0x0                 0
+(gdb) u* 0x0000000000400fae //Then we jumped to the 0x0000000000400fae where we will compare the value of 0x4 and %eax
+0x0000000000400fae in phase_3 ()
+(gdb) disas
+Dump of assembler code for function phase_3:
+   0x0000000000400f0d <+0>:	sub    $0x18,%rsp
+   0x0000000000400f11 <+4>:	mov    %fs:0x28,%rax
+   0x0000000000400f1a <+13>:	mov    %rax,0x8(%rsp)
+   0x0000000000400f1f <+18>:	xor    %eax,%eax
+   0x0000000000400f21 <+20>:	lea    0x4(%rsp),%rcx
+   0x0000000000400f26 <+25>:	mov    %rsp,%rdx
+   0x0000000000400f29 <+28>:	mov    $0x4025b7,%esi
+   0x0000000000400f2e <+33>:	callq  0x400bb0 <__isoc99_sscanf@plt>
+   0x0000000000400f33 <+38>:	cmp    $0x1,%eax
+   0x0000000000400f36 <+41>:	jg     0x400f3d <phase_3+48>
+   0x0000000000400f38 <+43>:	callq  0x401438 <explode_bomb>
+   0x0000000000400f3d <+48>:	cmpl   $0x7,(%rsp)
+   0x0000000000400f41 <+52>:	ja     0x400f9e <phase_3+145>
+   0x0000000000400f43 <+54>:	mov    (%rsp),%eax
+   0x0000000000400f46 <+57>:	jmpq   *0x402400(,%rax,8)
+   0x0000000000400f4d <+64>:	mov    $0x380,%eax
+   0x0000000000400f52 <+69>:	jmp    0x400f59 <phase_3+76>
+   0x0000000000400f54 <+71>:	mov    $0x0,%eax
+   0x0000000000400f59 <+76>:	sub    $0x3e4,%eax
+   0x0000000000400f5e <+81>:	jmp    0x400f65 <phase_3+88>
+   0x0000000000400f60 <+83>:	mov    $0x0,%eax
+   0x0000000000400f65 <+88>:	add    $0x21e,%eax
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400f6a <+93>:	jmp    0x400f71 <phase_3+100>
+   0x0000000000400f6c <+95>:	mov    $0x0,%eax
+   0x0000000000400f71 <+100>:	sub    $0x34,%eax
+   0x0000000000400f74 <+103>:	jmp    0x400f7b <phase_3+110>
+   0x0000000000400f76 <+105>:	mov    $0x0,%eax
+   0x0000000000400f7b <+110>:	add    $0x34,%eax
+   0x0000000000400f7e <+113>:	jmp    0x400f85 <phase_3+120>
+   0x0000000000400f80 <+115>:	mov    $0x0,%eax
+   0x0000000000400f85 <+120>:	sub    $0x34,%eax
+   0x0000000000400f88 <+123>:	jmp    0x400f8f <phase_3+130>
+   0x0000000000400f8a <+125>:	mov    $0x0,%eax
+   0x0000000000400f8f <+130>:	add    $0x34,%eax
+   0x0000000000400f92 <+133>:	jmp    0x400f99 <phase_3+140>
+   0x0000000000400f94 <+135>:	mov    $0x0,%eax
+   0x0000000000400f99 <+140>:	sub    $0x34,%eax
+   0x0000000000400f9c <+143>:	jmp    0x400fa8 <phase_3+155>
+   0x0000000000400f9e <+145>:	callq  0x401438 <explode_bomb>
+   0x0000000000400fa3 <+150>:	mov    $0x0,%eax
+   0x0000000000400fa8 <+155>:	cmpl   $0x5,(%rsp)
+   0x0000000000400fac <+159>:	jg     0x400fb4 <phase_3+167>
+=> 0x0000000000400fae <+161>:	cmp    0x4(%rsp),%eax //Since the value of 0x4(%rsp) is 4 and %eax is 490. They are not equal so there is chances of exploding the bomb.
+						        so we assume that 490 might be another integer.
+   0x0000000000400fb2 <+165>:	je     0x400fb9 <phase_3+172>
+   0x0000000000400fb4 <+167>:	callq  0x401438 <explode_bomb>
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000400fb9 <+172>:	mov    0x8(%rsp),%rax
+   0x0000000000400fbe <+177>:	xor    %fs:0x28,%rax
+   0x0000000000400fc7 <+186>:	je     0x400fce <phase_3+193>
+   0x0000000000400fc9 <+188>:	callq  0x400b00 <__stack_chk_fail@plt>
+   0x0000000000400fce <+193>:	add    $0x18,%rsp
+   0x0000000000400fd2 <+197>:	retq   
+End of assembler dump.
+(gdb) i r //The value of the rax will return to 490.
+rax            0x1ea               490
+rbx            0x4021f0            4202992
+rcx            0x0                 0
+rdx            0x7fffffffde54      140737488346708
+rsi            0x0                 0
+rdi            0x7fffffffd800      140737488345088
+rbp            0x0                 0x0
+rsp            0x7fffffffde50      0x7fffffffde50
+r8             0xffffffff          4294967295
+r9             0x0                 0
+r10            0x7ffff7f61ac0      140737353489088
+r11            0x0                 0
+r12            0x400c60            4197472
+r13            0x7fffffffdf60      140737488346976
+r14            0x0                 0
+r15            0x0                 0
+rip            0x400fae            0x400fae <phase_3+161>
+eflags         0x293               [ CF AF SF IF ]
+cs             0x33                51
+ss             0x2b                43
+ds             0x0                 0
+es             0x0                 0
+fs             0x0                 0
+--Type <RET> for more, q to quit, c to continue without paging--
+gs             0x0                 0
+(gdb) x/d 0x7fffffffde54
+0x7fffffffde54:	4 //The value for 0x4(%rsp) is 4.
+(gdb) run //We run the program.
+The program being debugged has been started already.
+Start it from the beginning? (y or n) y 
+Starting program: /home/lab02/Desktop/12190041/Assignment 1/bomb002/bomb 
+Welcome to my fiendish little bomb. You have 6 phases with
+which to blow yourself up. Have a nice day!
+Public speaking is very easy. //We type the answer of first phase_1
+Phase 1 defused. How about the next one?
+1 2 4 8 16 32 //We type answer for phase_2
+That's number 2.  Keep going!
+2 490 //We type the answer for phase_3
+Halfway there! //The bomb of phase_3 is defuse.
+^C
+Program received signal SIGINT, Interrupt.
+0x00007ffff7ed4142 in __GI___libc_read (fd=0, buf=0x6046b0, nbytes=1024)
+    at ../sysdeps/unix/sysv/linux/read.c:26
+26	../sysdeps/unix/sysv/linux/read.c: No such file or directory.
+(gdb) 

@@ -1,0 +1,195 @@
+lab02@lab02-OptiPlex-3040:~/Desktop/12190041/Assignment 1/bomb002$ gdb bomb // gdb is used as debugger for the bomb file.
+GNU gdb (Ubuntu 9.2-0ubuntu1~20.04) 9.2
+Copyright (C) 2020 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from bomb...
+(gdb) break phase_1 //set break point on phase 1 so that only the phase_1 function is executed.
+Breakpoint 1 at 0x400e8d
+(gdb) break explode_bomb// set break point on explode_bomb so that it will stops the code from executing it and also prevent from exploding the bomb if we make mistake.
+Breakpoint 2 at 0x401438
+(gdb) run // runt the phase_1 function.
+Starting program: /home/lab02/Desktop/12190041/Assignment 1/bomb002/bomb 
+Welcome to my fiendish little bomb. You have 6 phases with
+which to blow yourself up. Have a nice day!
+hello world // We will just write some strings as input since we can get clue from the function that it is asking for the strings.
+
+Breakpoint 1, 0x0000000000400e8d in phase_1 ()
+(gdb) disas // We will disassemble code so we could more clue for the input strings that is in it.
+Dump of assembler code for function phase_1:
+=> 0x0000000000400e8d <+0>:	sub    $0x8,%rsp
+   0x0000000000400e91 <+4>:	mov    $0x4023cc,%esi
+   0x0000000000400e96 <+9>:	callq  0x401339 <strings_not_equal>
+   0x0000000000400e9b <+14>:	test   %eax,%eax
+   0x0000000000400e9d <+16>:	je     0x400ea4 <phase_1+23>
+   0x0000000000400e9f <+18>:	callq  0x401438 <explode_bomb>
+   0x0000000000400ea4 <+23>:	add    $0x8,%rsp
+   0x0000000000400ea8 <+27>:	retq   
+End of assembler dump.
+(gdb) ni // We will go through line by line execution of the code to get the answer.
+0x0000000000400e91 in phase_1 ()
+(gdb) ni // We will go through line by line execution of the code to get the answer.
+0x0000000000400e96 in phase_1 ()
+(gdb) disas // We will disassemble to see to see where we have reached by executing the line.
+Dump of assembler code for function phase_1:
+   0x0000000000400e8d <+0>:	sub    $0x8,%rsp
+   0x0000000000400e91 <+4>:	mov    $0x4023cc,%esi
+=> 0x0000000000400e96 <+9>:	callq  0x401339 <strings_not_equal>
+   0x0000000000400e9b <+14>:	test   %eax,%eax
+   0x0000000000400e9d <+16>:	je     0x400ea4 <phase_1+23>
+   0x0000000000400e9f <+18>:	callq  0x401438 <explode_bomb>
+   0x0000000000400ea4 <+23>:	add    $0x8,%rsp
+   0x0000000000400ea8 <+27>:	retq   
+End of assembler dump.
+(gdb) i r // To get more information about the address and value of a register, we use "i r" which is known as infomation register.
+rax            0x6037a0            6305696
+rbx            0x4021f0            4202992
+rcx            0xb                 11
+rdx            0x6037a0            6305696
+rsi            0x4023cc            4203468
+rdi            0x6037a0            6305696
+rbp            0x0                 0x0
+rsp            0x7fffffffde60      0x7fffffffde60
+r8             0x6037a0            6305696
+r9             0x7c                124
+r10            0xfffffffffffff6ed  -2323
+r11            0x7ffff7dfa400      140737352016896
+r12            0x400c60            4197472
+r13            0x7fffffffdf60      140737488346976
+r14            0x0                 0
+r15            0x0                 0
+rip            0x400e96            0x400e96 <phase_1+9>
+eflags         0x206               [ PF IF ]
+cs             0x33                51
+ss             0x2b                43
+ds             0x0                 0
+es             0x0                 0
+fs             0x0                 0
+--Type <RET> for more, q to quit, c to continue without paging--
+gs             0x0                 0
+(gdb) ni // we move to next line of execution.
+0x0000000000400e9b in phase_1 ()
+(gdb) i r // Display the value and address of register.
+rax            0x1                 1
+rbx            0x4021f0            4202992
+rcx            0xb                 11
+rdx            0x1                 1
+rsi            0x4023cc            4203468
+rdi            0x4023e9            4203497
+rbp            0x0                 0x0
+rsp            0x7fffffffde60      0x7fffffffde60
+r8             0x6037a0            6305696
+r9             0x7c                124
+r10            0xfffffffffffff6ed  -2323
+r11            0x7ffff7dfa400      140737352016896
+r12            0x400c60            4197472
+r13            0x7fffffffdf60      140737488346976
+r14            0x0                 0
+r15            0x0                 0
+rip            0x400e9b            0x400e9b <phase_1+14>
+eflags         0x297               [ CF PF AF SF IF ]
+cs             0x33                51
+ss             0x2b                43
+ds             0x0                 0
+es             0x0                 0
+fs             0x0                 0
+--Type <RET> for more, q to quit, c to continue without paging--
+gs             0x0                 0
+(gdb) disas // we diassemble the function to see our code flow. From here we could see that two register values are testing eachother.
+Dump of assembler code for function phase_1:
+   0x0000000000400e8d <+0>:	sub    $0x8,%rsp
+   0x0000000000400e91 <+4>:	mov    $0x4023cc,%esi
+   0x0000000000400e96 <+9>:	callq  0x401339 <strings_not_equal>
+=> 0x0000000000400e9b <+14>:	test   %eax,%eax
+   0x0000000000400e9d <+16>:	je     0x400ea4 <phase_1+23>
+   0x0000000000400e9f <+18>:	callq  0x401438 <explode_bomb>
+   0x0000000000400ea4 <+23>:	add    $0x8,%rsp
+   0x0000000000400ea8 <+27>:	retq   
+End of assembler dump.
+(gdb) x/s  0x1 //So to find the correct string, we use the command "x/s" to see the string value of the address.
+0x1:	<error: Cannot access memory at address 0x1>
+(gdb) x/d  0x1 //So to find the correct string, we use the command "x/s" to see the string value of the address.
+0x1:	Cannot access memory at address 0x1
+(gdb) x/s 0x7fffffffde60 So to find the correct string, we use the command "x/s" to see the string value of the address.
+0x7fffffffde60:	"" // From here we get a hint that the register do not contain the system given string.
+(gdb) ni // We then execute to next line to see where to see where the given input string is equal to the string that is there in code.
+0x0000000000400e9d in phase_1 ()
+(gdb) disas // We disassemble the code to see in which line it have reached after execution.
+Dump of assembler code for function phase_1:
+   0x0000000000400e8d <+0>:	sub    $0x8,%rsp
+   0x0000000000400e91 <+4>:	mov    $0x4023cc,%esi
+   0x0000000000400e96 <+9>:	callq  0x401339 <strings_not_equal>
+   0x0000000000400e9b <+14>:	test   %eax,%eax
+=> 0x0000000000400e9d <+16>:	je     0x400ea4 <phase_1+23>
+   0x0000000000400e9f <+18>:	callq  0x401438 <explode_bomb>
+   0x0000000000400ea4 <+23>:	add    $0x8,%rsp
+   0x0000000000400ea8 <+27>:	retq   
+End of assembler dump.
+(gdb) ni // We execute to next line to see if our input strings is correct.
+0x0000000000400e9f in phase_1 ()
+(gdb) disas // We disassemble the code and from here we know our string is wrong because the function calls the explode_bomb function.
+Dump of assembler code for function phase_1:
+   0x0000000000400e8d <+0>:	sub    $0x8,%rsp
+   0x0000000000400e91 <+4>:	mov    $0x4023cc,%esi
+   0x0000000000400e96 <+9>:	callq  0x401339 <strings_not_equal>
+   0x0000000000400e9b <+14>:	test   %eax,%eax
+   0x0000000000400e9d <+16>:	je     0x400ea4 <phase_1+23>
+=> 0x0000000000400e9f <+18>:	callq  0x401438 <explode_bomb>
+   0x0000000000400ea4 <+23>:	add    $0x8,%rsp
+   0x0000000000400ea8 <+27>:	retq   
+End of assembler dump.
+(gdb) i r // Next we know that the string is hidden in the code so to get it we need to print the value of the register.
+rax            0x1                 1
+rbx            0x4021f0            4202992
+rcx            0xb                 11
+rdx            0x1                 1
+rsi            0x4023cc            4203468
+rdi            0x4023e9            4203497
+rbp            0x0                 0x0
+rsp            0x7fffffffde60      0x7fffffffde60
+r8             0x6037a0            6305696
+r9             0x7c                124
+r10            0xfffffffffffff6ed  -2323
+r11            0x7ffff7dfa400      140737352016896
+r12            0x400c60            4197472
+r13            0x7fffffffdf60      140737488346976
+r14            0x0                 0
+r15            0x0                 0
+rip            0x400e9f            0x400e9f <phase_1+18>
+eflags         0x202               [ IF ]
+cs             0x33                51
+ss             0x2b                43
+ds             0x0                 0
+es             0x0                 0
+fs             0x0                 0
+--Type <RET> for more, q to quit, c to continue without paging--
+gs             0x0                 0
+(gdb) x/s 0x400ea4 // At first we try find string on this register.
+0x400ea4 <phase_1+23>:	"H\203\304\b\303USH\203\354(dH\213\004%("
+(gdb) x/s 0x4023cc // Then we try to find the strings on this register.
+0x4023cc:	"Public speaking is very easy." //We get this string which we will use to defuse the phase_1
+(gdb) delete \\We will delete break point so that the whole function can execute, not in line by line.
+Delete all breakpoints? (y or n) y // We will we say yes.
+(gdb) break phase_2 //After the phase_1 function, we will be ask to find the answer for phase_2. For only execution for the phase_2, we break the phase_2.
+Breakpoint 3 at 0x400ea9
+(gdb) break explode_bomb //If the answer of phase_1 is correct, we will asked to assume the answer for the phase_2. So not to get the bomb explode, we use break point in explode_bomb.
+Breakpoint 4 at 0x401438
+(gdb) run // we will run the phase_1 function.
+The program being debugged has been started already.
+Start it from the beginning? (y or n) y 
+Starting program: /home/lab02/Desktop/12190041/Assignment 1/bomb002/bomb 
+Welcome to my fiendish little bomb. You have 6 phases with
+which to blow yourself up. Have a nice day!
+Public speaking is very easy. // Type the strings we got.
+Phase 1 defused. How about the next one? // Since it is correct answer, we defuse the phase_1 bomb and move to next phase: phase_2.
